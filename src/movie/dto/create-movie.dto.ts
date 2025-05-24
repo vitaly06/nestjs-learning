@@ -1,36 +1,28 @@
-import {
-  IsBoolean,
-  IsEnum,
-  IsInt,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsPositive,
-  IsString,
-} from 'class-validator';
-
-export enum Genre {
-  ACTION = 'action',
-  COMEDY = 'comedy',
-  DRAMA = 'drama',
-  HORROR = 'horror',
-}
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateMovieDto {
-  @IsNotEmpty({ message: 'Название не может быть пустым' })
-  @IsString({ message: 'Название должно быть строкой' })
+  @ApiProperty({
+    description: 'Название фильма',
+    example: 'Red notifice',
+    type: 'string',
+  })
   title: string;
-  @IsOptional()
-  @IsString({ message: 'Описание должно быть строкой' })
-  description: string;
-  @IsNumber({}, { message: 'Год выпуска фильма должен быть числом' })
-  @IsPositive({ message: 'Год выпуска фильма не должен быть отрицательным' })
-  @IsInt({ message: 'Год выпуска фильма должен быть целым числом' })
+  @ApiProperty({
+    description: 'Год релиза',
+    example: 2023,
+    type: 'number',
+  })
   releaseYear: number;
-  @IsNumber({}, { message: 'Оценка фильма должна быть числом' })
-  rating: number;
-  @IsBoolean({ message: 'Доступность фильма должна быть булевым значением' })
-  isAvailable: boolean;
-  @IsEnum(Genre, { message: 'Недопустимый жанр' })
-  genre: string;
+  @ApiPropertyOptional({
+    description: 'Ссылка на постер фильма',
+    example: 'https://storage.example.com/poster/123456.jpeg',
+    type: 'string',
+  })
+  poster?: string;
+  @ApiProperty({
+    description: 'Id актёров',
+    example: ['65645', '65645', '321'],
+    type: [String],
+  })
+  actorIds: string[];
 }
